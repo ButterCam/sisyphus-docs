@@ -2,20 +2,10 @@
 sidebar_position: 6
 ---
 
-# Congratulations!
+# 恭喜毕业！
 
-You have just learned the **basics of Docusaurus** and made some changes to the **initial template**.
+你已经了解了对于 Sisyphus 的基本概念与流程设计，相信你已经可以设计并实现出十分健壮的 API 了。
 
-Docusaurus has **much more to offer**!
+还想要更深入的了解与自定义 Sisyphus？在这里还有[更多的教程](./category/教程---拓展)！
 
-Have **5 more minutes**? Take a look at **[versioning](../tutorial-extras/manage-docs-versions.md)** and **[i18n](../tutorial-extras/translate-your-site.md)**.
-
-Anything **unclear** or **buggy** in this tutorial? [Please report it!](https://github.com/facebook/docusaurus/discussions/4610)
-
-## What's next?
-
-- Read the [official documentation](https://docusaurus.io/).
-- Add a custom [Design and Layout](https://docusaurus.io/docs/styling-layout)
-- Add a [search bar](https://docusaurus.io/docs/search)
-- Find inspirations in the [Docusaurus showcase](https://docusaurus.io/showcase)
-- Get involved in the [Docusaurus Community](https://docusaurus.io/community/support)
+如果在本教程中发现有任何**不清楚**或**错误**的地方，请在[这里](https://github.com/ButterCam/sisyphus-docs/issues/new)提交给我们。
