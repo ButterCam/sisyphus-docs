@@ -114,4 +114,4 @@ class EchoImpl : Echo() {
 
 ## 深入开发
 
-你已经了解了 Sisyphus 的基本使用方法了，接下来查看我们[其他的教程以及文档](./category/教程---基础)，可以更加深入的了解更多 Sisyphus 的高级功能。
+你已经了解了 Sisyphus 的基本使用方法了，接下来查看我们[其他的教程以及文档](/docs/category/教程---基础)，可以更加深入的了解更多 Sisyphus 的高级功能。
