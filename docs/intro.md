@@ -2,116 +2,43 @@
 sidebar_position: 1
 ---
 
-# 快速开始
+# 介绍
 
-让我们在**五分钟内运行一个 Sisyphus gRPC 服务**。
+⚡️ Sisyphus 可以帮你快速开始开发一个新的 gRPC 服务。
 
-## 准备工作
+📓 遵循 [Google API 设计指南](https://google.aip.dev/)，手把手教你构建健壮而具有拓展性的 API。
 
-从克隆我们的示例项目 [sisyphus-showcase](https://github.com/ButterCam/sisyphus-showcase) 开始。
+🏔 几乎在所有场景都能提供最佳实践，避免走弯路。
 
-```shell
-git clone https://github.com/ButterCam/sisyphus-showcase.git
-cd sisyphus-showcase
-```
+💥 想深入了解吗？ 来试试包括服务反射、Swagger 集成、服务监控、SQL Builder DSL 在内的进阶功能特性吧！
 
-### 需要的工具
+🧐 Sisyphus 是一个基于 Spring Boot 与 Kotlin 构建的 gRPC 服务框架，采用 Kotlin Coroutine 技术来构建异步 API。
 
-- [JDK](https://www.azul.com/downloads/?package=jdk#download-openjdk) 11 或者以上
+# 特性
 
-:::tip 提示
+Sisyphus 从设计之初就极度重视开发者的体验，帮助你从枯燥的业务中解脱出来。
 
-除了链接提供的 Azul Zulu 外，任何 JDK 11 版本以上都可以运行。
+- 🥄 **用 ❤️ 与 Kotlin 联合打造**
+    - 与啰嗦的 Java 语法说再见，使用更高效的 Kotlin 语言开发
+    - 拥抱 Java 社区，100% 兼容纯 Java 的类库
+    - 采用协程技术编写高性能且十分易读的业务逻辑
+- 🧗‍ **融入 Protobuf/gRPC 生态**
+    - 专为 Kotlin 生成代码，使 Protobuf 无缝融入 Kotlin 的语言系统
+    - 集成了 Sisyphus 的 [Intellij Protobuf Plugin](https://github.com/devkanro/intellij-protobuf-plugin)，帮助你快速编写 Protobuf
+      文件
+    - 用于调试 gRPC 请求的 [Mediator](https://github.com/ButterCam/Mediator) 代理工具，能够在 gRPC 上也能或得到传统 API 的调试便利性
+    - 极简的 gRPC 客户端 [sisyphus.js](https://github.com/ButterCam/sisyphus.js) 帮你快速融入浏览器生态
+- 🗺 **遵循 [Google API 设计指南](https://google.aip.dev/)**
+    - 当对 API 设计犹豫不决时，随时翻阅 Google API 设计指南
+    - 提供标准 HTTP Transcoding 访问接口，一次同时实现 gRPC 与 Restful 接口
+- ☁️ **原生微服务架构**
+    - 微服务与宏服务随意拼装，保留微服务特性的同时，也包含单体应用的优点
+    - 部署插件一键部署到 K8s 环境
+- 👬 **对开发者友好**
+    - 最少的配置干最多的事情，避免使用环境变量来配置环境
+    - 使用可编辑的 gradle.properties 来配置开发环境
+    - 使用可分发的 Config Artifacts 来配置运行环境
 
-:::
+# 缺点什么？
 
-:::tip 提示
-
-使用 `java -version` 查看您的 JDK 版本。
-
-:::
-
-## 运行 Showcase 服务
-
-配置好 JDK 后，只需要运行 `./gradlew bootRun` 就可以启动服务。
-
-当显示 `./gradlew` 没有权限执行时，可以使用 chmod +x 来让 `./gradlew` 拥有执行权限。
-
-```shell
-> ./gradlew bootRun
-> zsh: permission denied: ./gradlew
-> chmod +x gradlew
-```
-
-当看到下面这样的日志时，表示服务已经启动并监听了 7469 端口。
-
-```log
-2022-07-01 21:23:15.635  INFO 32159 --- [           main] c.b.s.starter.grpc.ServerLifecycle       : Running gRPC server via netty on port: 7469
-2022-07-01 21:23:15.640  INFO 32159 --- [           main] MainKt                                   : Started MainKt in 0.825 seconds (JVM running for 1.11)
-```
-
-第一次执行 `bootRun` 时，会自动下载所需的依赖，这可能需要一些时间，不用担心服务会在几分钟后准备就绪。
-
-## 项目结构
-
-接下来，使用 [Intellij IDEA](https://www.jetbrains.com/idea/download/) 从已有的代码创建工程，选择 showcase 文件夹，在导入的模块选项中选择 Gradle 即可导入 Showcase 项目开始开发。
-
-Showcase 项目是一个标准的 [Gradle](https://gradle.org/) 工程，工程配置都在根目录下的 `settings.gradle.kt`s 与 `build.gradle.kts` 文件中。
-
-:::tip 提示
-
-IntelliJ IDEA Ultimate 与 IntelliJ IDEA Community 都可以用于开发 Sisyphus 项目，并没有什么太大的功能区别。
-
-:::
-
-### build.gradle.kts
-
-在 Gradle 插件的部分，我们使用了 Kotlin、Spring 与 Sisyphus Protobuf。
-
-```kotlin
-plugins {
-    kotlin("jvm") version "1.6.20" // Kotlin 基础插件
-    kotlin("plugin.spring") version "1.6.20" // Kotlin Spring 插件，将 @Configuration，@Service 等自动标记为 open
-    id("org.springframework.boot") version "2.5.4" // Spring Boot 插件
-    id("com.bybutter.sisyphus.protobuf") version "1.4.0" // Sisyphus Protobuf 插件
-    idea
-    application
-}
-```
-
-在依赖的部分，只需要加入 `sisyphus-grpc-server-starter` 即可，所有相关的依赖或者是配置都会自动配置好。
-
-```kotlin
-dependencies {
-    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.4.0")
-    testImplementation(kotlin("test"))
-}
-```
-
-### Proto 文件夹
-
-当同步完工程后，在 src/main/proto 文件夹里，包含了 showcase 服务定义的所有 proto，Sisyphus Protobuf 插件会负责将 proto 文件转化为 Kotlin 代码。
-
-在 Gradle Task 窗口执行 `generateProtos` 命令就可以生成所有 proto 文件的 Kotlin 代码。
-
-生成后的代码会在 `build/generated/proto/source/main/` 文件夹中，最后编译成 Jar 包时也会一并包含在内。
-
-### Spring Application
-
-showcase 也是一个标准的 Spring Boot 应用，所以可以使用 Spring Boot 的配置方式来配置应用。
-
-在 `impl` 包中可以查看所有由 `@RpcServiceImpl` 注解标记的服务实现。
-
-```kotlin
-@RpcServiceImpl
-class EchoImpl : Echo() {
-}
-```
-
-`Echo` 类就是由 `echo.proto` 中的 `service Echo {}` 生成的。
-
-可以看到所有的方法都有 `suspend` 关键字所标记，这意味着整个服务的实现都支持 Kotlin 协程。
-
-## 深入开发
-
-你已经了解了 Sisyphus 的基本使用方法了，接下来查看我们[其他的教程以及文档](/docs/category/教程---基础)，可以更加深入的了解更多 Sisyphus 的高级功能。
+如果你发现文档存在问题，或者有改进文档或项目的建议，请向我们[提 issue](https://github.com/ButterCam/sisyphus-docs/issues/new)。

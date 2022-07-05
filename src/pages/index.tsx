@@ -17,7 +17,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
+            to="/docs/getting-started">
             快速开始使用 Sisyphus - 约 5 分钟 ⏱️
           </Link>
         </div>
@@ -30,8 +30,8 @@ export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`使用 gRPC 构建 API`}
+      description="使用 gRPC 与 AIP 构建更健壮与拓展性的 API">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

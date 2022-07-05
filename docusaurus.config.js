@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -68,7 +68,7 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: '教程',
+            label: '文档',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
@@ -121,7 +121,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Baidu, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ButterCam OpenSource Group. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
