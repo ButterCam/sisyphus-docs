@@ -128,6 +128,27 @@ const config = {
         darkTheme: darkCodeTheme,
         additionalLanguages: ["kotlin", "protobuf"]
       },
+      algolia: {
+        // The application ID provided by Algolia
+        appId: 'JEUJZ2Y8JO',
+
+        // Public API key: it is safe to commit it
+        apiKey: '19a2659d5276d8eb212194fc07543211',
+
+        indexName: 'sisyphus',
+
+        // Optional: see doc section below
+        contextualSearch: true,
+
+        // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+        // externalUrlRegex: 'butterapis\\.com|bybutter\\.com',
+
+        // Optional: Algolia search parameters
+        // searchParameters: {},
+
+        // Optional: path for search page that enabled by default (`false` to disable it)
+        searchPagePath: 'search',
+      },
     }),
 };
 
