@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Sisyphus',
-  tagline: '使用 gRPC 与 AIP 构建更健壮与拓展性的 API',
+  tagline: 'Build more robust and extensible gRPC APIs with AIP',
   url: 'https://sisyphus.bybutter.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -24,8 +24,8 @@ const config = {
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'zh-Hans',
-    locales: ['zh-Hans'],
+    defaultLocale: 'en',
+    locales: ['en', 'zh-Hans'],
   },
 
   presets: [
@@ -68,9 +68,14 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: '文档',
+            label: 'Documents',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/search', label: 'Search', position: 'left'},
+          {
+            type: 'localeDropdown',
+            position: 'right',
+          },
           {
             href: 'https://github.com/ButterCam/sisyphus',
             className: 'header-github-link',
@@ -86,24 +91,15 @@ const config = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                to: '/docs/getting-started',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'Guides',
+                to: '/docs/category/guides',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'Advanced Guides',
+                to: '/docs/category/advanced-guides',
               },
             ],
           },

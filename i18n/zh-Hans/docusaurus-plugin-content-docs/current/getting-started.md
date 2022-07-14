@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Getting Started
+# 快速开始
 
 让我们在**五分钟内运行一个 Sisyphus gRPC 服务**。
 
@@ -54,7 +54,8 @@ cd sisyphus-showcase
 
 ## 项目结构
 
-接下来，使用 [Intellij IDEA](https://www.jetbrains.com/idea/download/) 从已有的代码创建工程，选择 showcase 文件夹，在导入的模块选项中选择 Gradle 即可导入 Showcase 项目开始开发。
+接下来，使用 [Intellij IDEA](https://www.jetbrains.com/idea/download/) 从已有的代码创建工程，选择 showcase 文件夹，在导入的模块选项中选择 Gradle 即可导入
+Showcase 项目开始开发。
 
 Showcase 项目是一个标准的 [Gradle](https://gradle.org/) 工程，工程配置都在根目录下的 `settings.gradle.kt`s 与 `build.gradle.kts` 文件中。
 

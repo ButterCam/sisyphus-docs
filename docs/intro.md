@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# 介绍
+# Introduce
 
 ⚡️ Sisyphus 可以帮你快速开始开发一个新的 gRPC 服务。
 
