@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# 创建一个 Message 实体
+# Create a message
 
 Sisyphus 是专为在 Kotlin 中使用 Protobuf 而设计的，提供了一套简单易用的 DSL API 来构建 Message 实体。
 

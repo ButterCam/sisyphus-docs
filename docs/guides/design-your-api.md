@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# 设计自己的 API
+# Design new API
 
 Sisyphus 的工作流的开始与核心是 API 设计，一切都是围绕着 API 所展开的。在这里 Sisyphus 强烈建议参考 [Google API 设计指南](https://google.aip.dev/)，并按照该指南来设计
 API。

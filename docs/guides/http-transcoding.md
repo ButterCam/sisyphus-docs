@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# 提供 HTTP Restful API
+# HTTP Transcoding
 
 由于 gRPC 协议是基于 HTTP/2 协议，在某些环境下，特别是浏览器中，无法得到完整的 HTTP/2 支持，此时除了 gRPC 接口外，还应提供兼容的 HTTP 接口。
 

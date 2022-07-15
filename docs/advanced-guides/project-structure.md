@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# 工程结构
+# Project structure
 
 Sisyphus 推荐采用**宏服务**架构： **Schema** / **Component** / **Middleware** / **Service** / **Application**
 来组织工程结构，这样可以更加方便的管理工程，并且可以更加灵活的添加新的组件。

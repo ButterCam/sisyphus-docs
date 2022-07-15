@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# 恭喜毕业！
+# Congratulations
 
 你已经了解了对于 Sisyphus 的基本概念与流程设计，相信你已经可以设计并实现出十分健壮的 API 了。
 

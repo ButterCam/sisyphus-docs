@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Sisyphus 中的 AIP
+# AIP with Sisyphus
 
 为了帮助我们遵循 Google API 设计指南，Sisyphus 实现了很多 AIP 中未提供实现的标准。
 

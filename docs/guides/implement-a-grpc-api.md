@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# 实现一个 gRPC 接口
+# Implement a gRPC API
 
 所有的 gRPC 接口都由 proto 文件中的 `service` 与 `rpc` 定义，这些定义将会被 Sisyphus Protobuf 插件生成为 Kotlin 代码。
 

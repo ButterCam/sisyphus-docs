@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# 为 API 接口提供验证
+# Auth your API
 
 Sisyphus 在构建 gRPC 服务的时候，会将 Spring 上下文中的所有 `ServerInterceptor` 都加入其中。
 

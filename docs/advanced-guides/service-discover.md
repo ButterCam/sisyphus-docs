@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# 服务发现
+# Service Discover
 
 我们已经知道了 **Service** 之间调用，而是通过依赖 **Schema** 实现。Sisyphus 会自动发现本地的服务与 k8s 集群中的服务并创建客户端 Bean。
 
