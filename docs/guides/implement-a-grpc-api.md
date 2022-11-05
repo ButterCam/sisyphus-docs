@@ -2,9 +2,10 @@
 sidebar_position: 2
 ---
 
-# 实现一个 gRPC 接口
+# Implement a gRPC API
 
-所有的 gRPC 接口都由 proto 文件中的 `service` 与 `rpc` 定义，这些定义将会被 Sisyphus Protobuf 插件生成为 Kotlin 代码。
+All gRPC APIs are defined by `service` and `rpc` in the proto file, and these definitions will be generated as Kotlin
+code by the Sisyphus Protobuf plugin.
 
 ```protobuf
 service Echo {
@@ -17,7 +18,8 @@ service Echo {
 }
 ```
 
-在我们的业务中只需要简单的添加一个类，并集成自生成的抽象类，然后打上 `@RpcServiceImpl` 注解即可。
+In our code we simply add a class and extends the generated abstract class and then hit the `@RpcServiceImpl`
+annotation.
 
 ```kotlin
 @RpcServiceImpl
@@ -28,23 +30,26 @@ class EchoImpl : Echo() {
 }
 ```
 
-## `generateProtos` 任务
+## `generateProtos` Task
 
-在前面我们介绍了 `generateProtos` Gradle 任务，它会为所有的 proto 文件生成 Kotlin 代码。
+Earlier we introduced the `generateProtos` Gradle task, which generates Kotlin code for all proto files.
 
-任何编译操作都依赖于相应的 `generateProtos` 任务，所以当执行 `build` 任务时，proto 文件也会自动生成。
+Any compilation operation depends on the corresponding `generateProtos` task, so when the `build` task is executed, the
+proto file is also generated automatically.
 
-但是在代码不完全 Kotlin 无法正常编译的时候，我们还是需要手动执行 `generateProtos`。 
+However, we still need to execute `generateProtos` manually when the code does not compile properly with incomplete
+Kotlin.
 
-:::info 提示
+:::info Note
 
-当 proto 文件发生了变更，或者找不到 proto 中的元素时，就执行 `generateProtos` 吧！
+When the proto file has changed, or when you can't find an element in the proto, just execute `generateProtos`!
 
 :::
 
-## 抛出异常
+## Throwing Exceptions
 
-可以在 gRPC 的实现中随意的抛出 `StatusException`，Sisyphus 会正确的将此异常转换为 gRPC 的错误响应。
+Feel free to throw a `StatusException` in the gRPC implementation, and Sisyphus will correctly convert this exception to
+a gRPC error response.
 
 ```kotlin
 import com.bybutter.sisyphus.rpc.StatusException
@@ -52,17 +57,22 @@ import com.bybutter.sisyphus.rpc.StatusException
 throw StatusException(Code(it.code), it.message).withDetails(it.details)
 ```
 
-`StatusException` 具有很多方便的函数，可以提供更多的错误信息，这些错误信息的标准[由 Google 预定义](https://github.com/googleapis/api-common-protos/blob/main/google/rpc/error_details.proto)，Sisyphus 实现了这些标准。
+StatusException` has a number of util functions to provide more information about errors, and the standards for these
+error
+messages [predefined by Google](https://github.com/googleapis/api-common-protos/blob/main/google/rpc/error_details.proto)
+, and Sisyphus implements these.
 
-:::caution 注意
+:::caution Caution
 
-使用 `StatusException` 时，注意导入的是 `com.bybutter.sisyphus.rpc` 包下的，而不是 `io.grpc` 包。`io.grpc.StatusException` 提供的是最基础的异常类，虽然 Sisyphus 也能够处理，但是因为不支持额外的信息，所以不推荐使用。
+When using `StatusException`, note that it is imported under the `com.bybutter.sisyphus.rpc` package, not the `io.grpc`
+package. `io.grpc.StatusException` provides the most basic information for exception, and although Sisyphus can handle
+it, it is not recommended because it does not support additional information.
 
 :::
 
-## 实现 echo API
+## Implement echo API
 
-了解了如何创建 Message 与抛出异常，我们就能正确的实现 `Echo.echo` API 了。
+Knowing how to create a Message and throw an exception, we can properly implement the `Echo.echo` API.
 
 ```kotlin
 override suspend fun echo(input: EchoRequest): EchoResponse {
@@ -77,6 +87,6 @@ override suspend fun echo(input: EchoRequest): EchoResponse {
 }
 ```
 
-上面这个例子是最简单的 gRPC API，会将 `EchoRequest` 中的内容转换为 `EchoResponse` 中的内容。
+The above example is the simplest gRPC API that converts the content in `EchoRequest` to the content in `EchoResponse`.
 
-如果 `EchoRequest` 中包含一个错误，则会抛出 `StatusException` 来展示这个错误。
+If the `EchoRequest` contains an error, a `StatusException` is thrown to display the error.

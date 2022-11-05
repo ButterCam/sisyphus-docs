@@ -2,41 +2,47 @@
 sidebar_position: 5
 ---
 
-# 设计自己的 API
+# Design new API
 
-Sisyphus 的工作流的开始与核心是 API 设计，一切都是围绕着 API 所展开的。在这里 Sisyphus 强烈建议参考 [Google API 设计指南](https://google.aip.dev/)，并按照该指南来设计
-API。
+The beginning and core of Sisyphus' workflow is the API design, around which everything revolves. Here Sisyphus strongly
+recommends referring to the [Google API Improvement Proposals](https://google.aip.dev/) and following it to design API.
 
-该指南包含了 Google 在 API 设计上的最佳实践，当你遇到了 API 设计的问题，感觉这样做也行，那样做也可以，拿不定注意的时候，不妨来看看 [Google API 设计指南](https://google.aip.dev/)。
+This guide contains Google's best practices for API design. When you encounter a problem with API design and feel
+uncertain about doing this or that, take a look at [Google API Improvement Proposals](https://google.aip.dev/)。
 
 ## Intellij Protobuf Plugin
 
-**[Intellij Protobuf Plugin](https://github.com/devkanro/intellij-protobuf-plugin)** 是专为 Intellij 提供的 Protobuf
-语言的插件，可以帮助你快速地编写 Protobuf 文件。  
-该插件提供了很多官方插件所不具有的功能，例如 AIP 集成，导入优化等等，并且还集成了 Sisyphus 一些功能的支持。
+**[Intellij Protobuf Plugin](https://github.com/devkanro/intellij-protobuf-plugin)** is a plugin for Intellij's Protobuf
+language plugin that helps you write Protobuf files quickly.
+
+The plugin provides many features that the official plugin does not have, such as AIP integration, import optimization,
+etc., and also integrates some features of Sisyphus hold.
 
 ![](./assets/intellij-protobuf-plugin.png#gh-light-mode-only)
 ![](./assets/intellij-protobuf-plugin_dark.png#gh-dark-mode-only)
 
-在 Intellij 的 `设置-插件` 页面搜索 `protobuf` 就可以下载并安装该插件。
+You can download and install the plugin by searching for `protobuf` in Intellij's `Preferences - Plugins` page.
 
-:::danger 注意
+:::danger Attention
 
-注意，当你使用 IntelliJ IDEA Ultimate 时，会自动附带一个官方的 Protocol Buffer 插件，Intellij Protobuf Plugin 与此插件并不兼容，需要在插件页将自带的 Protocol
-Buffer 插件与 gRPC 插件禁用。  
-不用担心功能不足的问题，因为 Intellij Protobuf Plugin 已经集成 Protocol Buffer 插件与 gRPC 插件的大部分功能，并且提供了更多的功能。
+Note that when you use IntelliJ IDEA Ultimate, an official Protocol Buffer plugin is bundled, Intellij Protobuf Plugin
+is not compatible with this plugin, you need to disable the `Protocol Buffer` plugin and the `gRPC` plugin on the
+plugins page.
+
+Don't worry, because the Intellij Protobuf Plugin already integrates most of the features of the `Protocol Buffer`
+plugin and the `gRPC` plugin, and provides more and smarter features.
 
 :::
 
-## 设计第一个 API
+## Designing the first API
 
-当安装好插件后，就可以在 `src/main/proto` 目录下创建一个新的 proto 文件。
+Once the plugin is installed, a new proto file can be created in the `src/main/proto` directory.
 
-创建文件之前，需要创建一个新的 package，参考 [AIP-191](https://google.aip.dev/191)。
+Before creating the file, you need to create a new package, refer to [AIP-191](https://google.aip.dev/191).
 
-一般而言，Java 包名只需要简单的去掉类似 `com`、`net`、`io` 等根域名，就能当 proto 包名。
+In general, Java package names can be proto package names by simply dropping root domains like `com`, `net`, `io`, etc.
 
-在这里我们使用 `bybutter.showcase.v1` 当我们的包名，在这个包下创建一个 `book.proto`。
+Here we use `bybutter.showcase.v1` as our package name and create a `book.proto` under this package.
 
 ```protobuf
 syntax = "proto3";
@@ -47,15 +53,18 @@ option java_package = "com.bybutter.showcase.v1";
 option java_multiple_files = true;
 ```
 
-对于新创建的 proto 文件，总是鼓励采用 `proto3` 的语法，并配置好生成的 Kotlin 文件的包名。
+For newly created proto files, it is always encouraged to use the `proto3` syntax and configure the package name of the
+resulting Kotlin file.
 
-## 面向资源设计
+## Resource-oriented design
 
-[AIP-121](https://google.aip.dev/121) 提出了面向资源设计的概念，面向资源设计是一种 RPC API 的模式，它提供了一种更加规范化与模式化的方式来设计 API。
+[AIP-121](https://google.aip.dev/121) introduced the concept of Resource Oriented Design, a pattern for RPC APIs that
+provides a more prescriptive and schematic approach to designing APIs.
 
-将几乎所有的 API 都设计为针对资源的不同的动作，并且大部分动作可以使用 HTTP 方法来描述，这几乎和 Restful API 的概念一样。
+Design almost all APIs as different actions against resources, and most of the actions can be described using HTTP
+methods, which is almost the same concept as Restful API.
 
-在这里我们定义一种资源，名为 `Book`，表示一本书的信息。
+Here we define a resource named `Book`, which represents information about a book.
 
 ```protobuf
 message Book {
@@ -66,9 +75,12 @@ message Book {
 }
 ```
 
-### 资源名
+### Resource Name
 
-[AIP-122](https://google.aip.dev/122) 定义了唯一确定一个资源的资源名规范，资源名不只是包含了资源 ID 信息，还包含了资源之间的层级结构，这对于设计复杂的 API 十分有用。
+[AIP-122](https://google.aip.dev/122) defines a resource name specification that uniquely identifies a resource, which
+contains not only the resource ID.
+
+It also contains information about the hierarchy between resources, which is useful for designing complex APIs.
 
 ```protobuf
 message Book {
@@ -85,19 +97,20 @@ message Book {
 }
 ```
 
-可以用 `resource` option 将一个 message 定义为资源，在这里我们定义 Book 的资源名格式为 `publishers/{publisher}/books/{book}`，其中 `publisher` 表示出版方
-ID， `book` 为则为书籍 ID。
+A message can be defined as a resource using the `resource` option, where we define Book resource name in the
+format `publishers/{publisher}/books/{book}`, where `publisher` is the publisher ID and `book` is the book ID.
 
-### 资源类型
+### Resource Type
 
-[AIP-123](https://google.aip.dev/123) 定义了资源类型的规范，资源类型由资源所在的域与资源类型组成。
+[AIP-123](https://google.aip.dev/123) defines the specification of the resource type, which consists of the domain in
+which the resource is located and the resource type.
 
-`showcase.bybutter.com/Book` 就是 `Book` 的资源类型，`showcase.bybutter.com` 表示资源所属的域，一般是 API 服务器的域名，而 Book 则为资源类型，一般是 message
-名字。
+`showcase.bybutter.com/Book` is the resource type of `Book`, `showcase.bybutter.com` indicates the domain to which the
+resource belongs, typically the domain name of the API server, and Book is the resource type, usually the message name.
 
-### 资源关联
+### Resource Reference
 
-我们可以将不同的资源关联起来，用 `resource_reference` option 就可以做到这一点。
+We can associate different resources with each other, and the `resource_reference` option can do that.
 
 ```protobuf
 message Book {
@@ -108,17 +121,19 @@ message Book {
 }
 ```
 
-## API 设计
+## API Deigning
 
-[AIP-131](https://google.aip.dev/131)，[AIP-132](https://google.aip.dev/132)，[AIP-133](https://google.aip.dev/133)
-，[AIP-134](https://google.aip.dev/134)，[AIP-135](https://google.aip.dev/135)，定义了关于资源的五个标准接口，分别是
-Get，List，Create，Update，Delete。
+[AIP-131](https://google.aip.dev/131), [AIP-132](https://google.aip.dev/132), [AIP-133](https://google.aip.dev/133)
+, [AIP-134](https://google.aip.dev/134), [AIP-135](https://google.aip.dev/135) defines five standard interfaces on
+resources, which are Get, List, Create, Update, Delete.
 
-这就是我们常说的增删改查接口了，这些接口都有各自的 AIP 规范，参考这些规范就可以设计出健壮而富有拓展性的 API。
+This is what we often call the add, delete, and check interface, these interfaces have their own AIP specification,
+reference to these specifications can be designed to robust and expandable API.
 
-### Get 接口
+### Get Method
 
-Get 接口用于通过资源名获取单个资源的详细信息，在 HTTP 映射中往往将资源名放到 URI 路径中。
+The Get method is used to get detailed information about a single resource by its name, which is often placed in the URI
+path in HTTP mappings.
 
 ```protobuf
 service BookApi {
@@ -139,11 +154,13 @@ message GetBookRequest {
 }
 ```
 
-### List 接口
+### List Method
 
-List 接口用于获取列举资源，在 HTTP 映射中往往将资源的所属资源名放到 URI 路径中，并且具有 `page_token` 与 `page_size` 用于翻页。
+The List method is used to list resources, often with the parent resource name of the resource in the URI path in the
+HTTP mapping, and with `page_token` and `page_size` for pagination.
 
-额外还能设计 `filter`([AIP-160](https://google.aip.dev/160)) 与 `order_by` 资源用于过滤资源与设定列表中的资源排序规则。
+Additional `filter`([AIP-160](https://google.aip.dev/160)) and `order_by` resources can be designed to filter resources
+and set rules for sorting resources in the list.
 
 ```protobuf
 service BookApi {
@@ -162,24 +179,25 @@ message ListBooksRequest {
             child_type: "library.googleapis.com/Book"
         }];
 
-    // 每页元素个数，如果没有指定，默认为 100，最大为 1000，超过 1000 会强制设置为 1000。
     int32 page_size = 2;
 
-    // 从上一个 ListBooks 获取的翻页 token，如果没有指定，则从第一页开始。
+    // The page token obtained from the response to the previous ListBooks request, or from the first page if not specified.
     string page_token = 3;
 }
 
 message ListBooksResponse {
     repeated Book books = 1;
 
-    // 下一页的翻页 token，如果没有更多的数据，则为空。
+    // The next page token, or null if there is no more data.
     string next_page_token = 2;
 }
 ```
 
-### Create 接口
+### Create Method
 
-Create 接口用于创建资源，在 HTTP 映射中往往将资源的所属资源名放到 URI 路径中，并且将资源本身的信息放在请求体中，返回创建好的资源本身。
+The Create method is used to create a resource, often putting the name of the resource it belongs to in the URI path in
+the HTTP mapping, and putting information about the resource itself in the request body, returning the created resource
+itself.
 
 ```protobuf
 service BookApi {
@@ -204,11 +222,12 @@ message CreateBookRequest {
 }
 ```
 
-### Update 接口
+### Update Method
 
-Update 接口用于更新资源，在 HTTP 映射中往往将资源名放到 URI 路径中，并且将资源本身的信息放在请求体中，返回更新好的资源本身。
+The Update method is used to update a resource, often placing the resource name in the URI path in the HTTP transcoding
+and placing information about the resource itself in the request body, returning the updated resource itself.
 
-Update 接口还会包含一个 `update_mask` 字段，用于指示需要更新哪些资源的值。
+The Update method will also contain an `update_mask` field to indicate which resources' fields need to be updated.
 
 ```protobuf
 service BookApi {
@@ -233,9 +252,11 @@ message UpdateBookRequest {
 }
 ```
 
-### Delete 接口
+### Delete Method
 
-Delete 接口用于删除资源，在 HTTP 映射中往往将资源名放到 URI 路径中，返回空对象，在软删除的场景（[AIP-164](https://google.aip.dev/164)）可能会返回资源本身。
+The Delete method is used to delete a resource, and in HTTP transcoding often puts the resource name into the URI path,
+returning the empty object, and in a soft deleting scenario ([AIP-164](https://google.aip.dev/164)) may return the
+resource itself.
 
 ```protobuf
 service BookApi {
@@ -256,8 +277,11 @@ message DeleteBookRequest {
 }
 ```
 
-### 自定义接口
+### Custom Method
 
-此外还有很多动作并不能简单的由上述 5 种方法实现，在这种情况下可以参考 [AIP-136](https://google.aip.dev/136) 来自定义方法的实现。
+There are also many actions that cannot be simply implemented by the above 5 methods, in which case you can refer
+to [AIP-136](https://google.aip.dev/136) for the implementation of the custom methods.
 
-针对批量请求的场景，还能参考 [AIP-231](https://google.aip.dev/231)，[AIP-233](https://google.aip.dev/233)，[AIP-234](https://google.aip.dev/234)，[AIP-235](https://google.aip.dev/235) 来设计批量处理接口。
+For batch request scenarios, you can also refer to [AIP-231](https://google.aip.dev/231)
+, [AIP-233](https://google.aip.dev/233)
+, [AIP-234](https://google.aip.dev/234), [AIP-235](https://google.aip.dev/235) to design the batch processing method.
