@@ -13,7 +13,7 @@ sidebar_position: 2
 
 ```kotlin
 plugins {
-    id("com.bybutter.sisyphus.project") version "1.4.0"
+  id("com.bybutter.sisyphus.project") version "1.5.22"
 }
 ```
 
@@ -21,14 +21,14 @@ plugins {
 
 ```kotlin
 buildscript {
-    repositories {
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
+  repositories {
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
     }
-    dependencies {
-        classpath("com.bybutter.sisyphus.tools:sisyphus-project-gradle-plugin:1.4.0")
-    }
+  }
+  dependencies {
+    classpath("com.bybutter.sisyphus.tools:sisyphus-project-gradle-plugin:1.5.22")
+  }
 }
 
 apply(plugin = "com.bybutter.sisyphus.project")
@@ -113,9 +113,9 @@ apply(plugin = "com.bybutter.sisyphus.project")
 
 ```kotlin
 dependencies {
-    frameworkLayer(api("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.4.0"))
-    platformLayer(api("com.bybutter.sisyphus.kit:camera-grpc-server-autoconfigure:1.2.1"))
-    apiLayer(api("com.bybutter.camera.api:camera-user-api:1.7.12"))
+  frameworkLayer(api("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.5.22"))
+  platformLayer(api("com.bybutter.sisyphus.kit:camera-grpc-server-autoconfigure:1.2.1"))
+  apiLayer(api("com.bybutter.camera.api:camera-user-api:1.7.12"))
 }
 ```
 
@@ -174,12 +174,14 @@ proto 的 jar 包，这些依赖都会被标记为此层级。
 
 ### Docker 插件
 
-针对 JavaApplication 类型的项目，如果 Gradle 运行环境中有 [Docker 插件](https://github.com/palantir/gradle-docker)，并且工程目录下具有 `dockerfile`
-，Sisyphus 会自动应用 `com.palantir.docker` 插件。
+针对 JavaApplication 类型的项目，如果 Gradle 运行环境中有 [Docker 插件](https://github.com/bmuschko/gradle-docker-plugin)
+，Sisyphus 会自动应用 `com.bmuschko.docker-remote-api` 插件。
 
-1. 所有工程与父工程下 docker 文件夹内的文件都会加入 `docker build` 命令的工作目录中。
-2. 会通过 `sisyphus.docker.repositories` 为 Docker 插件自动配置需要推送的仓库 tag。
-3. 将 `PROJECT_NAME` 与 `PROJECT_VERSION` 的加入 Docker 构建参数中。
+1. 会自动生成 Dockerfile 用于构建镜像
+2. 会使用 Spring Boot 的 `bootJar` 分层特性在构建镜像时自动将依赖的 jar 包分层加入，增加镜像层的重复利用率，减少镜像体积
+3. 所有工程与父工程下 docker 文件夹内的文件都会加入 `docker build` 命令的工作目录中。
+4. 会通过 `sisyphus.docker.repositories` 为 Docker 插件自动配置需要推送的仓库 tag。
+5. 将 `PROJECT_NAME` 与 `PROJECT_VERSION` 的加入 Docker 构建参数中。
 
 ### Ktlint 插件
 

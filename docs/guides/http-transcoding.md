@@ -4,12 +4,14 @@ sidebar_position: 4
 
 # HTTP Transcoding
 
-由于 gRPC 协议是基于 HTTP/2 协议，在某些环境下，特别是浏览器中，无法得到完整的 HTTP/2 支持，此时除了 gRPC 接口外，还应提供兼容的 HTTP 接口。
+Since the gRPC protocol is based on the HTTP/2 protocol, in some environments, especially in browsers, full HTTP/2
+support is not available, so a compatible HTTP API should be provided.
 
-gRPC 接口转 HTTP 接口方案有很多，Sisyphus 采用并实现了 [Google AIP-127](https://google.aip.dev/127) 的 HTTP/gRPC Transcoding 标准，只需要在 proto
-的 API 方法下加指定的 option 就可以自动支持 HTTP Restful API。
+Sisyphus uses and implements the HTTP and gRPC Transcoding standard from [Google AIP-127](https://google.aip.dev/127),
+which only requires a specified option under the API method of the proto to automatically support HTTP Restful API.
 
-Sisyphus 底层采用标准的 Spring Webflux 实现 HTTP Transcoding，所有 Webflux 组件都可以用在 Transcoding 服务上，并且还能和原有的 Spring 深度集成。
+Sisyphus uses Spring Webflux to implement HTTP Transcoding, and all Webflux components can be used in the Transcoding
+service, and can also be integrated with existing Spring components.
 
 ```protobuf
 service Book {
@@ -22,33 +24,31 @@ service Book {
 }
 
 message CreateBookRequest {
-    // 当使用 HTTP Transcoding 时，由于路径上包含 `{parent=publishers/*}` 
-    // 这个字段会自动填充到路径上。
+    // Since the path contains `{parent=publishers/*}`, the `parent` field is automatically populated from that section.
     string parent = 1 [
         (google.api.field_behavior) = REQUIRED,
         (google.api.resource_reference) = {
             child_type: "library.googleapis.com/Book"
         }];
 
-    // 当使用 HTTP Transcoding 时，由于配置了 `body: "book"`，该字段会根据 HTTP 请求体填充
+    // Since `body: "book"` is configured, this field will be populated based on the HTTP request body.
     Book book = 2 [(google.api.field_behavior) = REQUIRED];
 
-    // 当使用 HTTP Transcoding 时，由于该字段既不包含在 URI 路径中，也不包含在 Body 中，
-    // 该字段会采用类似 `?book_id=foo` Query 的方式填充。
+    // Since the field is not included in the URI path nor in the Body, it is populated in a similar way to the `?book_id=foo` HTTP Query.
     string book_id = 3;
 }
 ```
 
-在 build.gradle.kts 中加入 `sisyphus-grpc-transcoding-starter` 依赖。
+Add the `sisyphus-grpc-transcoding-starter` dependency to build.gradle.kts.
 
 ```kotlin
 dependencies {
-    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.4.0")
-    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-transcoding-starter:1.4.0")
+    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.5.22")
+    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-transcoding-starter:1.5.22")
 }
 ```
 
-并在 Spring 的入口类上加上 `@EnableHttpToGrpcTranscoding` 注解。
+And add the `@EnableHttpToGrpcTranscoding` annotation to the Spring entry class.
 
 ```kotlin
 @SpringBootApplication
@@ -56,7 +56,8 @@ dependencies {
 class ShowcaseApplication
 ```
 
-然后重启 gRPC 服务，在启动日志中可以看到除了 gRPC 的服务端口外，还能看见 8080 端口也被 Netty 监听。
+Then restart the gRPC service, and you can see in the startup log that in addition to the gRPC service port, port 8080
+is also being listened to by Netty.
 
 ```log
 2022-07-05 01:03:03.634  INFO 39930 --- [           main] c.b.s.starter.grpc.ServerLifecycle       : Running gRPC server via netty on port: 7469
@@ -65,6 +66,8 @@ class ShowcaseApplication
 ```
 
 :::tip [sisyphus.js](https://github.com/ButterCam/sisyphus.js)
-**[sisyphus.js](https://github.com/ButterCam/sisyphus.js)** 是专为采用 AIP-127 标准的 gRPC API 提供的 JavaScript/TypeScript 运行时，可以与 Sisyphus 后端完美配合。  
-并且，由于针对浏览器环境，**sisyphus.js** 也很意生成的文件大小，可以用最小的代码大小达到最方便的 API 调用方式。
+**[sisyphus.js](https://github.com/ButterCam/sisyphus.js)**  is provided specifically for the gRPC API using the AIP-127
+standard JavaScript/TypeScript runtime, which works perfectly with the Sisyphus backend.  
+Moreover, since it is targeted at the browser environment, **sisyphus.js** also cares about the generated file size,
+allowing the most convenient way to call the API with the smallest code size.
 :::

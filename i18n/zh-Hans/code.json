@@ -1,30 +1,36 @@
 {
-  "Quick start with Sisyphus - 5 min ⏱️": {
+  "homepage.quickstart": {
     "message": "快速开始使用 Sisyphus - 约 5 分钟 ⏱️"
   },
-  "Build gRPC APIs": {
+  "homepage.title": {
     "message": "使用 gRPC 构建 APIs"
   },
-  "Build more robust and extensible gRPC APIs with AIP": {
+  "homepage.subtitle": {
+    "message": "现代化 Java/Kotlin 微服务后端开发框架"
+  },
+  "homepage.description": {
     "message": "使用 gRPC 与 AIP 构建更健壮与拓展性的 API"
   },
-  "Kotlin and Spring Boot": {
+  "homepage.features.1.title": {
     "message": "Kotlin 与 Spring Boot"
   },
-  "Sisyphus uses {kotlin} and {spring} to build a coroutine-based asynchronous gRPC service.": {
+  "homepage.features.1.description": {
     "message": "Sisyphus 使用 {kotlin} 与 {spring} 构建基于协程的异步 gRPC 服务。"
   },
-  "Focus on building elegant APIs": {
-    "message": "专注于构建优雅的 API"
+  "homepage.features.2.title": {
+    "message": "渐进式微服务开发"
   },
-  "Sisyphus provides all the tools to design APIs for following the {aip}.": {
-    "message": "Sisyphus 提供了所有用于遵循 {aip} 规范的工具与方法。"
+  "homepage.features.2.description": {
+    "message": "独特的宏服务思想能够帮助业务在发展的过程中渐进式从单体应用转变为微服务架构。"
   },
-  "Best Practices Covered Throughout": {
-    "message": "全程覆盖的最佳实践"
+  "homepage.features.3.title": {
+    "message": "设计 API 的最佳实践"
   },
-  "Sisyphus covers the entire API lifecycle, from design, implementation, debugging, testing to final deployment.": {
-    "message": "Sisyphus 覆盖了整个 API 的生命周期，从设计、实现、调试、测试到最后的部署，都能在 Sisyphus 中找到最佳实践。"
+  "homepage.features.3.description": {
+    "message": "用 Sisyphus 轻松设计出符合 {aip}经验的 API。"
+  },
+  "homepage.features.3.description.aip": {
+    "message": "Google 最佳实践"
   },
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",

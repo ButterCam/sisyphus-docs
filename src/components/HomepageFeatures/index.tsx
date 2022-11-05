@@ -11,10 +11,10 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
     {
-        title: translate({message: 'Kotlin and Spring Boot'}),
+        title: translate({id: 'homepage.features.1.title', message: 'Kotlin and Spring Boot'}),
         Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
         description: (
-            <Translate values={{
+            <Translate id="homepage.features.1.description" values={{
                 kotlin: <a href="https://kotlinlang.org/"> Kotlin </a>,
                 spring: <a href="https://spring.io/projects/spring-boot"> Spring Boot </a>
             }}>
@@ -23,23 +23,26 @@ const FeatureList: FeatureItem[] = [
         )
     },
     {
-        title: translate({message: 'Focus on building elegant APIs'}),
+        title: translate({id: 'homepage.features.2.title', message: 'Progressive Microservicing'}),
         Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
         description: (
-            <Translate values={{
-                aip: <a href="https://google.aip.dev/">Google AIP</a>
-            }}>
-                {'Sisyphus provides all the tools to design APIs for following the {aip}.'}
+            <Translate id="homepage.features.2.description">
+                {'Macroservice design helps projects transition progressively from mono-application to microservice as they grow.'}
             </Translate>
         )
     },
     {
-        title: translate({message: 'Best Practices Covered Throughout'}),
+        title: translate({id: 'homepage.features.3.title', message: 'Best practices for designing API'}),
         Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
         description: (
-            <Translate>
-                Sisyphus covers the entire API lifecycle,
-                from design, implementation, debugging, testing to final deployment.
+            <Translate id="homepage.features.3.description" values={{
+                aip: <a href="https://google.aip.dev/">
+                    <Translate id="homepage.features.3.description.aip">
+                        Google's best practices
+                    </Translate>
+                </a>
+            }}>
+                {'Easily design APIs that meet {aip} with Sisyphus.'}
             </Translate>
         )
     }

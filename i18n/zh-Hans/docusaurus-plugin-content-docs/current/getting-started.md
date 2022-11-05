@@ -17,11 +17,11 @@ cd sisyphus-showcase
 
 ### 需要的工具
 
-- [JDK](https://www.azul.com/downloads/?package=jdk#download-openjdk) 11 或者以上
+- [JDK](https://www.azul.com/downloads/?package=jdk#download-openjdk) 17 或者以上
 
 :::tip 提示
 
-除了链接提供的 Azul Zulu 外，任何 JDK 11 版本以上都可以运行。
+除了链接提供的 Azul Zulu 外，任何 JDK 17 版本以上都可以运行。
 
 :::
 
@@ -74,7 +74,7 @@ plugins {
     kotlin("jvm") version "1.6.20" // Kotlin 基础插件
     kotlin("plugin.spring") version "1.6.20" // Kotlin Spring 插件，将 @Configuration，@Service 等自动标记为 open
     id("org.springframework.boot") version "2.5.4" // Spring Boot 插件
-    id("com.bybutter.sisyphus.protobuf") version "1.4.0" // Sisyphus Protobuf 插件
+    id("com.bybutter.sisyphus.protobuf") version "1.5.22" // Sisyphus Protobuf 插件
     idea
     application
 }
@@ -84,7 +84,7 @@ plugins {
 
 ```kotlin
 dependencies {
-    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.4.0")
+    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.5.22")
     testImplementation(kotlin("test"))
 }
 ```

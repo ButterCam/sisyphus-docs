@@ -43,8 +43,8 @@ message CreateBookRequest {
 
 ```kotlin
 dependencies {
-    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.4.0")
-    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-transcoding-starter:1.4.0")
+    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.5.22")
+    implementation("com.bybutter.sisyphus.starter:sisyphus-grpc-transcoding-starter:1.5.22")
 }
 ```
 

@@ -4,41 +4,50 @@ sidebar_position: 1
 
 # Introduce
 
-⚡️ Sisyphus 可以帮你快速开始开发一个新的 gRPC 服务。
+⚡️ Sisyphus can help you quickly build cloud-native modern backend services.
 
-📓 遵循 [Google API 设计指南](https://google.aip.dev/)，手把手教你构建健壮而具有拓展性的 API。
+🏗 Sisyphus uses a 'macroservices' design philosophy, which allows you to focus on business logic at the beginning of a
+project and easily unpack it into microservices at a later stage of business expansion.
 
-🏔 几乎在所有场景都能提供最佳实践，避免走弯路。
+📓 Follow the [Google API Improvement Proposals](https://google.aip.dev/) for a handy guide to building robust and
+extensible APIs.
 
-💥 想深入了解吗？ 来试试包括服务反射、Swagger 集成、服务监控、SQL Builder DSL 在内的进阶功能特性吧！
+💥 Ready for more? Use advanced features like Service Reflection, Swagger Integration, Service Monitoring, SQL Builder
+DSL and more!
 
-🧐 Sisyphus 是一个基于 Spring Boot 与 Kotlin 构建的 gRPC 服务框架，采用 Kotlin Coroutine 技术来构建异步 API。
+🧐 Sisyphus is essentially a gRPC service framework built on Spring Boot and Kotlin, using Kotlin Coroutine technology to
+build asynchronous APIs.
 
-# 特性
+# Features
 
-Sisyphus 从设计之初就极度重视开发者的体验，帮助你从枯燥的业务中解脱出来。
+Sisyphus has been designed from the ground up with a strong focus on the developer experience, helping you take a break
+from the tedium of business code.
 
-- 🥄 **用 ❤️ 与 Kotlin 联合打造**
-    - 与啰嗦的 Java 语法说再见，使用更高效的 Kotlin 语言开发
-    - 拥抱 Java 社区，100% 兼容纯 Java 的类库
-    - 采用协程技术编写高性能且十分易读的业务逻辑
-- 🧗‍ **融入 Protobuf/gRPC 生态**
-    - 专为 Kotlin 生成代码，使 Protobuf 无缝融入 Kotlin 的语言系统
-    - 集成了 Sisyphus 的 [Intellij Protobuf Plugin](https://github.com/devkanro/intellij-protobuf-plugin)，帮助你快速编写 Protobuf
-      文件
-    - 用于调试 gRPC 请求的 [Mediator](https://github.com/ButterCam/Mediator) 代理工具，能够在 gRPC 上也能或得到传统 API 的调试便利性
-    - 极简的 gRPC 客户端 [sisyphus.js](https://github.com/ButterCam/sisyphus.js) 帮你快速融入浏览器生态
-- 🗺 **遵循 [Google API 设计指南](https://google.aip.dev/)**
-    - 当对 API 设计犹豫不决时，随时翻阅 Google API 设计指南
-    - 提供标准 HTTP Transcoding 访问接口，一次同时实现 gRPC 与 Restful 接口
-- ☁️ **原生微服务架构**
-    - 微服务与宏服务随意拼装，保留微服务特性的同时，也包含单体应用的优点
-    - 部署插件一键部署到 K8s 环境
-- 👬 **对开发者友好**
-    - 最少的配置干最多的事情，避免使用环境变量来配置环境
-    - 使用可编辑的 gradle.properties 来配置开发环境
-    - 使用可分发的 Config Artifacts 来配置运行环境
+- 🥄 **Built with ❤️ and Kotlin**
+  - Develop with the more efficient Kotlin language
+  - Embrace the Java community, 100% compatibility with Java libraries
+  - Write high performance and very readable business logic using Kotlin concurrency techniques
+- 🧗‍ **Integration into the Protobuf/gRPC ecosystem**
+  - Kotlin-specific Protobuf compiler to seamlessly integrate Protobuf into the Kotlin language system
+  - [Intellij Protobuf Plugin](https://github.com/devkanro/intellij-protobuf-plugin), which supports the Sisyphus
+    framework, helps you write Protobuf files quickly
+  - Charles on gRPC, the [Mediator](https://github.com/ButterCam/Mediator) proxy tool can help you debug gRPC services
+  - The minimalist gRPC client for Web [sisyphus.js](https://github.com/ButterCam/sisyphus.js) helps you quickly
+    integrate into the browser
+- 🗺 **Follow the [Google API Improvement Proposals](https://google.aip.dev/)**
+  - When on the fence about API design, feel free to turn to the Google API Improvement Proposals
+  - Provides HTTP and gRPC Transcoding implementation, implementing both gRPC and beautiful Restful API at once
+- ☁️ **Native microservices**
+  - Microservices and Macroservices can be assembled at will, retaining the features of microservices while including
+    the benefits of monolithic applications
+  - Deployment Plugin One-Click Deployment to K8s Environment
+  - Docker plugin supports layered builds using Spring Boot layered Jar to optimize image size
+- 👬 **Developer Friendly**
+  - Doing the most with the least configuration
+  - Configure the development environment using the readily editable gradle.properties
+  - Configure the runtime environment using the distributable Config Artifacts Jar
 
-# 缺点什么？
+# Something missing?
 
-如果你发现文档存在问题，或者有改进文档或项目的建议，请向我们[提 issue](https://github.com/ButterCam/sisyphus-docs/issues/new)。
+If you find issues with the documentation or have suggestions on how to improve the documentation or the project in
+general, please [file an issue](https://github.com/ButterCam/sisyphus-docs/issues/new)。

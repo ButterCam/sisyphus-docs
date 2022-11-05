@@ -2,10 +2,11 @@
 sidebar_position: 6
 ---
 
-# Congratulations
+# Congratulations!
 
-你已经了解了对于 Sisyphus 的基本概念与流程设计，相信你已经可以设计并实现出十分健壮的 API 了。
+You have understood the basic concept and process design for Sisyphus.
 
-还想要更深入的了解与自定义 Sisyphus？在这里还有[更多的教程](/docs/category/advanced-guides)！
+There are [more tutorials](/docs/category/advanced-guides) about more advanced features of Sisyphus here!
 
-如果在本教程中发现有任何**不清楚**或**错误**的地方，请给我们[提 issue](https://github.com/ButterCam/sisyphus-docs/issues/new)提交给我们。
+If you find issues with the documentation or have suggestions on how to improve the documentation or the project in
+general, please [file an issue](https://github.com/ButterCam/sisyphus-docs/issues/new)。

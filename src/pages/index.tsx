@@ -14,12 +14,16 @@ function HomepageHeader() {
         <header className={clsx('hero hero--primary', styles.heroBanner)}>
             <div className="container">
                 <h1 className="hero__title">{siteConfig.title}</h1>
-                <p className="hero__subtitle">{siteConfig.tagline}</p>
+                <p className="hero__subtitle">
+                    <Translate id="homepage.subtitle">
+                        Modern gRPC back-end development framework base on JVM
+                    </Translate>
+                </p>
                 <div className={styles.buttons}>
                     <Link
                         className="button button--secondary button--lg"
                         to="/docs/getting-started">
-                        <Translate>
+                        <Translate id="homepage.quickstart">
                             Quick start with Sisyphus - 5 min ⏱️
                         </Translate>
                     </Link>
@@ -33,8 +37,11 @@ export default function Home(): JSX.Element {
     const {siteConfig} = useDocusaurusContext()
     return (
         <Layout
-            title={translate({message: `Build gRPC APIs`})}
-            description={translate({message: `Build more robust and extensible gRPC APIs with AIP`})}>
+            title={translate({id: 'homepage.title', message: `Build gRPC APIs`})}
+            description={translate({
+                id: 'homepage.description',
+                message: `Build more robust and extensible gRPC APIs with AIP`
+            })}>
             <HomepageHeader/>
             <main>
                 <HomepageFeatures/>

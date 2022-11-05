@@ -4,190 +4,249 @@ sidebar_position: 2
 
 # Sisyphus Project Plugin
 
-**Sisyphus Project Plugin** （以下简称插件）是用于快速创建 Sisyphus 项目的 Gradle 插件，可以更加自动化的配置 Gradle 工程。  
-插件能以符合直觉的形式自动配置第三方插件，减少 `build.gradle.kts` 中的配置。
+**Sisyphus Project Plugin** (hereafter referred to as `the plugin`) is a Gradle plugin for quickly creating Sisyphus
+projects, allowing for more automated configuration of Gradle projects.
 
-## 安装插件
+The plugin can automatically configure third-party plugins in an intuitive form, reducing configuration
+in `build.gradle.kts`.
 
-仅需要将 project 插件加入到 `build.gradle.kts` 中即可。
+## Apply the plugin
+
+Simply add the project plugin to `build.gradle.kts`.
 
 ```kotlin
 plugins {
-    id("com.bybutter.sisyphus.project") version "1.4.0"
+  id("com.bybutter.sisyphus.project") version "1.5.22"
 }
 ```
 
-或者使用传统的 Gradle 插件方式：
+Or use the traditional Gradle plugin apply dsl.
 
 ```kotlin
 buildscript {
-    repositories {
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
+  repositories {
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
     }
-    dependencies {
-        classpath("com.bybutter.sisyphus.tools:sisyphus-project-gradle-plugin:1.4.0")
-    }
+  }
+  dependencies {
+    classpath("com.bybutter.sisyphus.tools:sisyphus-project-gradle-plugin:1.5.22")
+  }
 }
 
 apply(plugin = "com.bybutter.sisyphus.project")
 ```
 
-## 使用 gradle.properties
+## Using gradle.properties
 
-插件的配置方式采用 `gradle.properties` 文件的方式，可以在 `gradle.properties` 文件中配置插件的参数。
+The plugin is configured using the `gradle.properties` file, where you can configure the plugin's parameters in
+the `gradle.properties` file.
 
-在全局的 `GRADLE_USER_HOME` 目录下（一般是 `~/.gradle/`），或者是在项目工程下的 `gradle.properties` 文件都会被 Gradle 读取，插件也会通过这些参数自动配置。
+The `gradle.properties` file in the global `GRADLE_USER_HOME` directory (usually `~/.gradle/`) or in the project project
+is read by Gradle and the plugin is automatically configured with these parameters.
 
-可以在全局的 `gradle.properties` 定义所有工程公用参数，或者在项目工程下的 `gradle.properties` 定义项目特定的参数。
+You can define all project common parameters in the global `gradle.properties` or project specific parameters in
+the `gradle.properties` under the project project.
 
-以下的 properties 都可用来配置插件：
+The following properties can all be used to configure the plugin.
 
 - `sisyphus.developer=(your name)`  
-  指定开发者的名字，这个名字会覆盖最后的工程版本号，例如指定了该 properties 为 `higan` 后，最后生成的版本号为 `higan-SNAPSHOT`。
-  在开发环境统一版本号有利于多工程开发，并通过依赖覆盖插件同步依赖。
+  Specify the developer's name, which will override the final project version number, e.g. if you specify the properties
+  as `higan`, the final version number generated will be `higan-SNAPSHOT`.  
+  Unifying version numbers in development environments facilitates multiple project development and synchronizes
+  dependencies via dependency override plugins.
 
 - `sisyphus.layer=(FRAMEWORK, PLATFORM, API, IMPLEMENTATION)`  
-  指定开发层级深度，可以指定为 `FRAMEWORK`, `PLATFORM`, `API`, `IMPLEMENTATION` 四个值，分别代表从深到浅的四个开发层级。默认值为
-  `IMPLEMENTATION`，在后面的章节中我们会着重介绍开发层级深度。
+  Specify the depth of the development layer. You can specify four values `FRAMEWORK`, `PLATFORM`, `API`
+  , `IMPLEMENTATION`, which represent the four development layers from deep to shallow. The default value
+  is `IMPLEMENTATION`, and we will focus on the development layer in later sections.
 
 - `sisyphus.environment=(env name)`  
-  指定当前运行的环境，该属性会被 **Config Artifact** 组件读取，并读取对应的配置文件，例如当指定环境为 `dev` 时，除了 `config.yaml`
-  会被读取外，`config-dev.yaml` 也会被 **Config Artifact** 读取，并覆盖 `config.yaml` 中的值。
+  Specify the current running environment, this property will be read by the **Config Artifact** component and read the
+  corresponding configuration file, for example when specifying the environment as `dev`, in addition to `config.yaml`
+  being read, `config-dev.yaml` will also be read by the **Config Artifact** and overwrite ` config.yaml`.
 
 - `sisyphus.repositories.<name>.url=(repo url)`  
-  定义一个 Repository 的 URL，可以用来指定一个 Maven 仓库的地址。仓库的类型并没有要求，可以是 Maven 仓库也可以是 Docker 仓库，具体的仓库类型在后续的使用中才有意义。
+  Define a URL for the Repository that can be used to specify the address of a Maven repository. The type of repository
+  is not required, it can be either a Maven repository or a Docker repository, the exact type of repository will only
+  make sense in subsequent use.
 
 - `sisyphus.repositories.<name>.username=(username)`  
-  定义一个 Repository 的用户名。
+  Specify the username of a Repository.
 
 - `sisyphus.repositories.<name>.password=(password)`  
-  定义一个 Repository 的密码。
+  Specify the password for a Repository.
 
 - `sisyphus.dependency.repositories=(repos)`  
-  定义用来解析依赖的仓库，这些仓库会自动配置到所有应用了插件的工程中，可以省略 `build.gradle.kts` 中的 `repositories`
-  配置。  
-  同时，**Config Artifact** 也是从这些仓库中下载的，填入的 repository 类型必须是一个有效的 maven 仓库。格式是以逗号分割的已定义的
-  repository 名称。默认值为 `local,central,portal`。  
-  对于 maven 仓库，插件内置了 **local**(maven local), **central**(maven central), **portal**(gradle portal) 三个仓库。
+  Specify the repositories used to resolve dependencies that are automatically configured to all projects that have
+  plugins applied to them, and can omit the `repositories` configuration in `build.gradle.kts`.  
+  Also, **Config Artifact** is downloaded from these repositories, and the type of repository filled in must be a valid
+  maven repository. The format is a comma-separated name of the defined repository. The default value
+  is `local,central,portal`.  
+  For maven repositories, the plugin has three built-in repositories **local**(maven local), **central**(maven central)
+  , **portal**(gradle portal).
 
 - `sisyphus.snapshot.repositories=(repos)`  
-  定义 SNAPSHOT 版本需要推送的 maven 仓库，这些仓库会自动配置到所有工程 publishing 配置中，如果当前工程的版本号为 `-SNAPSHOT`
-  结尾，会自动配置这些仓库。默认值为 `snapshot`，意味着只需要定一个名为 `snapshot` 仓库就能自动应用上。
+  Specify the maven repositories that need to be pushed for SNAPSHOT versions, these repositories will be automatically
+  configured to all project publishing configurations if the current project version number ends with `-SNAPSHOT`. The
+  default value is `snapshot`, which means that only one repository named `snapshot` needs to be set to be applied
+  automatically.
 
 - `sisyphus.release.repositories=(repos)`  
-  与 `sisyphus.snapshot.repositories` 差不多，但是是定义 release 版本需要推送的 maven 仓库，当工程版本号不是 `-SNAPSHOT`
-  结尾，会自动配置这些仓库。默认值为 `release`，意味着只需要定一个名为 `release` 仓库就能自动应用上。
+  Similar to `sisyphus.snapshot.repositories`, but specify the maven repositories that need to be pushed for the release
+  version, and is automatically configured when the project version number does not end in `-SNAPSHOT`. The default
+  is `release`, which means that only one repository named `release` needs to be set to be applied automatically.
 
 - `sisyphus.docker.repositories=(repos)`
-  定义 Docker 仓库，这些仓库会自动配置到 Gradle Docker 插件中，生成对应的 `tag`，`push` 任务。
+  Specify Docker repositories that are automatically configured into the Gradle Docker plugin, generating the
+  corresponding `tag`, `push` tasks.
 
 - `sisyphus.config.artifacts=(packages)`
-  定义运行时需要加载的 **Config Artifact**，这些 **Config Artifact** 会在应用启动时从 `sisyphus.dependency.repositories`
-  中自动下载。格式为 `foo.bar:baz:1.0.0` 这样的字符串，当有多个 **Config Artifact** 时，使用逗号分割。
+  Specify the **Config Artifacts** that need to be loaded at runtime, which are automatically downloaded
+  from `sisyphus.dependency.repositories` at application startup. The format is a string like `foo.bar:baz:1.0.0`,
+  separated by commas when there are multiple **Config Artifacts**.
 
-## 开发层级深度
+## Development Layer
 
-在上面我们提到了通过 `sisyphus.layer` 配置的开发层级深度的概念，在项目开发时，我们可以将依赖分成多个层级，以便简化开发环境的依赖配管理。
+We mentioned above the concept of development layer configured via `sisyphus.layer`, and during project development we
+can split dependencies into multiple layers in order to simplify the management of dependency matching in the
+development environment.
 
-在这里 Sisyphus 将开发层级深度分为四个层级：
+In this case, Sisyphus has divided the development layer depth into four layers.
 
-- **FRAMEWORK** 层是框架开发层，也是最深的开发层级，当面向框架开发时，所有的内部依赖都会被替换成开发版本。
+- The **FRAMEWORK** layer is the framework development layer and is the deepest development layer where all internal
+  dependencies are replaced with development versions when developing towards a framework.
 
-- **PLATFORM** 层是平台开发层，是次深的开发层级，平台是指对于框架的抽象，大部分情况下是包含了一些部门中对于框架的一些公用组件。
+- The **PLATFORM** layer is the platform development layer, is the next deepest development layer, the platform is the
+  abstraction for the framework, in most cases is included in some departments for the framework of some common
+  components.
 
-- **API** 层是接口开发层，是次浅的开发层级，所有的 API 依赖都会被替换成开发版本。
+- The **API** layer is the API development layer, is the next shallow development layer, all API dependencies will be
+  replaced with the development version.
 
-- **IMPLEMENTATION** 层是最浅的层级，也是默认的开发层级，这个层级的开发不会进行任何依赖替换，也无需定义。
+- The **IMPLEMENTATION** layer is the shallowest layer, and the default development layer, this layer of development
+  will not be any dependency replacement, and does not need to be defined.
 
-:::tip 提示
+:::tip Tips
 
-较深的层级会包含较浅的层级，例如 **FRAMEWORK** 层级也会替换所有 **PLATFORM** 与 **API** 层的依赖。
+Deeper tiers will contain shallower tiers, for example the **FRAMEWORK** tier will also replace all **PLATFORM** and **
+API** tier dependencies.
 
 :::
 
-### 层级依赖的版本替换
+### Version replacement of dependencies layer
 
-将依赖分层的主要目的是为了能对这些依赖进行管理，可以使用以下 DSL 来对依赖进行层级标记。
+The main purpose of layering dependencies is to be able to manage them, and the following DSL can be used to mark
+dependencies hierarchically.
 
 ```kotlin
 dependencies {
-    frameworkLayer(api("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.4.0"))
-    platformLayer(api("com.bybutter.sisyphus.kit:camera-grpc-server-autoconfigure:1.2.1"))
-    apiLayer(api("com.bybutter.camera.api:camera-user-api:1.7.12"))
+  frameworkLayer(api("com.bybutter.sisyphus.starter:sisyphus-grpc-server-starter:1.5.22"))
+  platformLayer(api("com.bybutter.sisyphus.kit:camera-grpc-server-autoconfigure:1.2.1"))
+  apiLayer(api("com.bybutter.camera.api:camera-user-api:1.7.12"))
 }
 ```
 
-用 `frameworkLayer`，`platformLayer` 和 `apiLayer` 标记层级，并在里面使用已经 Release 的版本号。
+Mark the layers with `frameworkLayer`, `platformLayer` and `apiLayer` and use the released version in them.
 
-进行本地开发时，我们修改了依赖工程中的代码，并推送到 maven local，当我们想要工程使用我们刚刚编译好的版本，通常情况下，我们需要去 `build.gradle.kts` 中修改依赖的版本号，这次变更很容易在后续的过程中被遗忘。
+When we do local development, we modify the code in the dependency project and push it to maven local. When we want the
+project to use the version we just compiled, we usually need to go to `build.gradle.kts` to change the dependency
+version number, and this change can easily be forgotten later on.
 
-为了不需要修改 `build.gradle.kts` 就能替换中依赖的版本，我们将依赖标记为指定的层级，例如用 `apiLayer` 标记为 **API** 层级，当 `sisyphus.layer` 被设定为 **API**
-或者更深层级时，所有的 **API** 依赖都会被替换成由 `sisyphus.developer` 决定的版本号，例如：`higan-SNAPSHOT`。
+In order to replace the version of the dependency in `build.gradle.kts` without modifying it, we mark the dependency to
+the specified level, for example with `apiLayer` to the **API** level, and when `sisyphus.layer` is set to the **API**
+level or deeper, all **API** dependencies will be replaced with version number determined by `sisyphus.developer`, for
+example: `higan-SNAPSHOT`.
 
-### ButterCam 内部的层级深度
+### Development Layer in ButterCam
 
-Sisyphus 对于开发层级的使用并没有特殊的规定，按照各自项目与工程的定义即可，但是在这里介绍一下 ButterCam 内部是如何使用这些层级的。
+Sisyphus has no special rules for the use of development tiers, as defined by the respective projects and projects, but
+here is a description of how these tiers are used inside ButterCam.
 
-对于 ButterCam 而言，**FRAMEWORK** 层是指 Sisyphus，我们会把所有的 Sisyphus 开源库的依赖标记为此层级。
+For ButterCam, the **FRAMEWORK** layer refers to Sisyphus, and we will mark all Sisyphus open source library
+dependencies as such.
 
-**PLATFORM** 层则是指 ButterCam 内部对于 Sisyphus 的针对性一些闭源组件，这些组件深度与 ButterCam 当前的技术栈与业务相关，能够为内部使用提供一些便利。
+The **PLATFORM** layer refers to ButterCam's internal closed-source components for Sisyphus that are deeply related to
+ButterCam's current technology stack and business, and can provide some convenience for internal use.
 
-**API** 层则是指我们所有的 proto 定义，我们将所有的 proto 文件单独放在一个工程内，这个工程是所有团队所共享的，前端、客户端与后端都能参与到 proto 编写的过程中。而后端的 **Schema** 组件会依赖这些只带
-proto 的 jar 包，这些依赖都会被标记为此层级。
+The **API** layer refers to all of our proto definitions, and we keep all of our proto files in a separate project that
+is shared by all teams, so that the front-end, client, and back-end can all participate in the process of writing proto.
+The back-end **Schema** components will depend on these proto-only jar packages, and these dependencies will be marked
+as such.
 
-:::info 值得一提
+:::info mention
 
-**PLATFORM** 层在 ButterCam 内部是一些耦合程度很高的工具类和一些通用的服务配置，我们也是和大家一样的使用同样的开源 Sisyphus 版本进行业务开发。
+The **PLATFORM** layer inside ButterCam are some highly coupled tool classes and some common service configurations, and
+we are using the same open source Sisyphus version for business development as everyone else.
 
 :::
 
-## 由 Sisyphus 托管的工程属性
+## Project properties hosted by Sisyphus
 
-当应用插件后，工程一些属性会由 Sisyphus 托管，此时一些自定义属性可能会被覆盖。
+When the plugin is applied, some properties of the project will be hosted by Sisyphus, and some custom properties may be
+overridden at this time.
 
-- `project.version` 工程版本号将由好几个因素决定    
-  属性 `sisyphus.developer` 决定了开发环境的版本号，格式为 `{name}-SNAPSHOT`  
-  环境变量 `BRANCH_NAME` 决定了开发分支的版本号，一般用于 CI 环境，格式为 `{branch}-SNAPSHOT`
-  环境变量 `GITHUB_REF` 决定了 PR 的版本号，一般用于 CI 环境，格式为 `PR-{PR_NUMBER}-SNAPSHOT`
-  环境变量 `TAG_NAME` 决定了 Release 的版本号，一般用于 CI 环境，格式为 `{tag}`
-  环境变量 `BUILD_VERSION` 决定了 Release 的版本号，一般用于 CI 环境，格式为 `{BUILD_VERSION}`
+- `project.version`, the project version will be determined by several factors    
+  The property `sisyphus.developer` determines the version number of the development environment, in the
+  format `{name}-SNAPSHOT`  
+  The environment variable `BRANCH_NAME` determines the version number of the development branch, typically used in CI
+  environments, in the format `{branch}-SNAPSHOT`
+  The environment variable `GITHUB_REF` determines the version number of the PR, typically used in CI environments, in
+  the format `PR-{PR_NUMBER}-SNAPSHOT`
+  The environment variable `TAG_NAME` determines the version number of the Release, usually used in CI environments, in
+  the format `{tag}`
+  The environment variable `BUILD_VERSION` determines the version number of the Release, typically used in CI
+  environments, in the format `{BUILD_VERSION}`
 
-- `project.repositories` 工程的 maven 仓库将由 `gradle.properties` 中的 sisyphus 的系列属性托管
+- `project.repositories`, the project's maven repository will be hosted by the
+  sisyphus `sisyphus.dependency.repositories` property in `gradle.properties`
 
-## 由 Sisyphus 托管的第三方插件
+## Third-party plugins hosted by Sisyphus
 
-插件还能以符合直觉的方式帮助我们配置一些第三方插件，例如 Publish，Docker，License 等等。
+Plugins can also help us configure third-party plugins such as Publish, Docker, License, etc. in an intuitive way.
 
-### Nebula 系列插件
+### Nebula plugins
 
-针对 JavaLibrary 类型的项目，如果 Gradle 运行环境中有 Nebula 系列插件，Sisyphus 会自动应用 `nebula.maven-publish`、`nebula.javadoc-jar`
-与 `nebula.source-jar` 插件，会根据版本号的不同，自动配置由 `sisyphus.release.repositories` 与 `sisyphus.snaphost.repositories` 定义的目标仓库。
+For JavaLibrary type projects, Sisyphus will automatically apply the `nebula.maven-publish`, `nebula.javadoc-jar`
+and `nebula.source-jar` plugins if the Gradle runtime environment has the Nebula family of plugins, depending on the
+version number. Depending on the version number, the target repositories defined by `sisyphus.release.repositories`
+and `sisyphus.snaphost.repositories` are automatically configured.
 
-针对 JavaPlatform 类型的项目，只会自动应用 `nebula.maven-publish` 插件。
+For JavaPlatform type projects, only the `nebula.maven-publish` plugin is automatically applied.
 
-针对应用了 `nebula.maven-publish` 插件的项目，还会额外应用 `nebula.info` 与 `nebula.contacts` 插件用于填充生成的 pom 信息。
+For projects with the `nebula.maven-publish` plugin applied, the `nebula.info` and `nebula.contacts` plugins are
+additionally applied to populate the generated pom information.
 
-此外当 gradle.properties 中包含了 `signing.gnupg.keyName`，还会应用 `signing` 插件用于生成包签名，具体请参阅 [signing 插件的文档](https://docs.gradle.org/current/userguide/signing_plugin.html)。
+In addition, when gradle.properties contains `signing.gnupg.keyName`, the `signing` plugin is also applied to generate
+package signatures, as described in the [documentation for the signing plugin](https://docs.gradle.org/current/
+userguide/signing_plugin.html).
 
-### Docker 插件
+### Docker plugin
 
-针对 JavaApplication 类型的项目，如果 Gradle 运行环境中有 [Docker 插件](https://github.com/palantir/gradle-docker)，并且工程目录下具有 `dockerfile`，Sisyphus 会自动应用 `com.palantir.docker` 插件。
+For JavaApplication type projects, if the Gradle runtime environment
+has [Docker plugin](https://github.com/bmuschko/gradle-docker-plugin), Sisyphus will automatically
+apply `com.bmuschko. docker-remote-api` plugin.
 
-1. 所有工程与父工程下 docker 文件夹内的文件都会加入 `docker build` 命令的工作目录中。
-2. 会通过 `sisyphus.docker.repositories` 为 Docker 插件自动配置需要推送的仓库 tag。
-3. 将 `PROJECT_NAME` 与 `PROJECT_VERSION` 的加入 Docker 构建参数中。
+1. automatically generates a Dockerfile for building the image
+2. use Spring Boot's `bootJar` layering feature to automatically layer in dependent jar packages when building images,
+   increasing the reuse of image layers and reducing image size
+3. all projects and files in the docker folder of the parent project are added to the working directory of
+   the `docker build` command. 4.
+4. automatically configure the repository tags for the Docker plugin to be pushed via `sisyphus.docker.repositories`.
+5. Add `PROJECT_NAME` and `PROJECT_VERSION` to the Docker build parameters.
 
-### Ktlint 插件
+### Ktlint plugin
 
-如果当前工程应用了 [Ktlint 插件](https://github.com/JLLeitschuh/ktlint-gradle)，Sisyphus 会自动提供一些配置。
+If [Ktlint plugin](https://github.com/JLLeitschuh/ktlint-gradle) is applied to the current project, Sisyphus will
+automatically provide some configuration.
 
-1. 忽略所有 generated 目录下文件。
-2. 将 ReportType 设置为 **CHECKSTYLE**。
+1. Ignore all files in the generated directory.
+2. Set the ReportType to **CHECKSTYLE**.
 
-### Antlr 插件
+### Antlr Plugin
 
-如果当前工程应用了 [Antlr 插件](https://docs.gradle.org/current/userguide/antlr_plugin.html)，Sisyphus 会自动提供一些配置。
+If [Antlr plugin](https://docs.gradle.org/current/userguide/antlr_plugin.html) is applied to the current project,
+Sisyphus will provide some configurations automatically.
 
-1. 将 Antlr 的 `generateGrammarSource` 任务加入 Kotlin 的编译依赖中，执行 Kotlin 编译时会自动执行 `generateGrammarSource`。
+1. Add Antlr's `generateGrammarSource` task to Kotlin's compilation dependencies, and `generateGrammarSource` will be
+   executed automatically when Kotlin is compiled.

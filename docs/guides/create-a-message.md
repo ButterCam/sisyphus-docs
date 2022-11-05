@@ -4,17 +4,18 @@ sidebar_position: 1
 
 # Create a message
 
-Sisyphus 是专为在 Kotlin 中使用 Protobuf 而设计的，提供了一套简单易用的 DSL API 来构建 Message 实体。
+Sisyphus provides an easy-to-use DSL API for building Message instances in Kotlin using Protobuf.
 
 ```protobuf
 message EchoResponse {
-  string content = 1;
+    string content = 1;
 
-  Severity severity = 2;
+    Severity severity = 2;
 }
 ```
 
-上面的 proto 文件定义一个名为 `EchoResponse` 的 Message，接下来直接使用 `EchoResponse` DSL 创建一个 `EchoResponse` 实体。
+The above proto file defines a Message named `EchoResponse`, and the next step is to create an `EchoResponse` instance
+directly using the `EchoResponse` DSL.
 
 ```kotlin
 val response = EchoResponse {
@@ -23,23 +24,25 @@ val response = EchoResponse {
 }
 ```
 
-只需要在 Message 类型后面使用大括号，即可构建一个 Message，在 `{}` 代码块中可以自由设置属性。
+A Message can be constructed by simply using curly brackets after the Message type, and properties can be freely set in
+the `{}` code block.
 
-:::info 找不到 EchoResponse 类型？
+:::info Can't find the EchoResponse type?
 
-尝试在 Gradle Task 窗口执行一下 `generateProtos` 生成所有的 Kotlin 代码。
+Try executing `generateProtos` in the Gradle Task window to generate all the Kotlin code.
 
 :::
 
+## Immutable and mutable types of messages
 
-## 消息的不可变类型与可变类型
+Sisyphus provides two access interfaces for all messages, for example, in the above example, Sisyphus generates two
+interfaces for `EchoResponse` messages. They are `EchoResponse` and `MutableEchoResponse`.
 
-Sisyphus 为所有消息提供了两种访问接口，例如上述例子中，Sisyphus 会为 `EchoResponse` 消息生成两个接口，
-分别是 `EchoResponse` 与 `MutableEchoResponse`。
+`EchoResponse` is an immutable interface and is the basic entry point for accessing Protobuf messages, in general we
+just need to import this interface.
 
-`EchoResponse` 为不可变接口，是访问 Protobuf 消息的基本入口，一般情况下我们只需要 import 此接口即可。
-
-`MutableEchoResponse` 为可变接口，一般情况下会被各种消息 DSL 所隐藏，会放在特殊的 `internal` 包中。
+`MutableEchoResponse` is a mutable interface, normally hidden by various message DSLs, and will be placed in a
+special `internal` package.
 
 ```kotlin
 EchoResponse { // this: MutableEchoResponse
@@ -48,30 +51,33 @@ EchoResponse { // this: MutableEchoResponse
 }
 ```
 
-例如上面的例子中，在 `EchoResponse` DSL 展开的代码域中，提供了 `MutableEchoResponse` 访问。
+For example, in the above example, `MutableEchoResponse` access is provided in the code field expanded by
+the `EchoResponse` DSL.
 
-当消息脱离创建消息 DSL 代码域之后，就是不可变访问。关于可变与不可变访问的优点，可以参考 Kotlin 的 var 与 val 设计。
+Once a message is removed from the creation of a message DSL code field, it is immutable access. See Kotlin's var and
+val design for more information on the benefits of mutable and immutable access.
 
-## 为消息重新赋值
+## Reassigning values to messages
 
-消息创建好了之后，可以通过 `invoke` DSL 重新展开 `MutableEchoResponse` 代码域。
+Once the message has been created, the `MutableEchoResponse` DSL domain can be re-expanded via the `invoke` DSL.
 
 ```kotlin
 val response = EchoResponse {
     this.content = input.content
     this.severity = input.severity
 }
-val newResponse = response.invoke { // 也可以省略成 response {
+val newResponse = response.invoke { // can also be omitted as `response {`
     this.content = "new content"
 }
 ```
 
-:::danger 注意
+:::danger Attention
 
-但是值得注意的是，在 `invoke` DSL 会创建一个新的 Message 实体，而并非在原来的实体上赋值。
+However, it is worth noting that the `invoke` DSL creates a new Message instance rather than assigning a value to the
+original instance.
 
 ```kotlin
-response !== newResponse // response 与 newResponse 并不是同一个对象
+response !== newResponse // response and newResponse are not the same object
 ```
 
 :::

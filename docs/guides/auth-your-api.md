@@ -4,9 +4,9 @@ sidebar_position: 3
 
 # Auth your API
 
-Sisyphus 在构建 gRPC 服务的时候，会将 Spring 上下文中的所有 `ServerInterceptor` 都加入其中。
+Sisyphus adds all the `ServerInterceptors` in the Spring context when building the gRPC service.
 
-可以通过任何 Spring 所支持的方式创建一个 `ServerInterceptor` Bean 来实现自定义的验证。
+A `ServerInterceptor` bean can be created to implement custom validation in any way Spring supports.
 
 ```kotlin
 @Component
@@ -27,8 +27,8 @@ class AuthInterceptor : ServerInterceptor {
 }
 ```
 
-:::caution 注意
+:::caution Caution
 
-由于 `ServerInterceptor` 不由 Sisyphus 管理，所以在这里需要使用 `io.grpc.StatusException`。
+Since `ServerInterceptor` is not managed by Sisyphus, you need to use `io.grpc.StatusException` here.
 
 :::
