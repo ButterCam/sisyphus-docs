@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksisyphus_docs=self.webpackChunksisyphus_docs||[]).push([[2535],{5641:s=>{s.exports=JSON.parse('{"title":"\u6700\u65b0\u535a\u5ba2","items":[{"title":"\u5168\u65b0\u7684 Docker \u63d2\u4ef6","permalink":"/zh-Hans/blog/new-docker-plugin"}]}')}}]);

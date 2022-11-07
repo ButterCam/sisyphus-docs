@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksisyphus_docs=self.webpackChunksisyphus_docs||[]).push([[2105],{704:s=>{s.exports=JSON.parse('{"label":"sisyphus-project-plugin","permalink":"/zh-Hans/blog/tags/sisyphus-project-plugin","allTagsPath":"/zh-Hans/blog/tags","count":1}')}}]);

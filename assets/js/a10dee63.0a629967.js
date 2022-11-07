@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksisyphus_docs=self.webpackChunksisyphus_docs||[]).push([[1135],{8317:s=>{s.exports=JSON.parse('{"label":"gradle","permalink":"/blog/tags/gradle","allTagsPath":"/blog/tags","count":1}')}}]);

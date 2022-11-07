@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksisyphus_docs=self.webpackChunksisyphus_docs||[]).push([[3546],{6964:s=>{s.exports=JSON.parse('{"permalink":"/zh-Hans/blog/tags/release","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

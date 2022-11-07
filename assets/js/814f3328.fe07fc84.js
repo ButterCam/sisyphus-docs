@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksisyphus_docs=self.webpackChunksisyphus_docs||[]).push([[2535],{5641:s=>{s.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"New docker plugin","permalink":"/blog/new-docker-plugin"}]}')}}]);
