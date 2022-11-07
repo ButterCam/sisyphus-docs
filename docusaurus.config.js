@@ -122,7 +122,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ["kotlin", "protobuf"]
+        additionalLanguages: ["kotlin", "protobuf", "docker"]
       },
       algolia: {
         // The application ID provided by Algolia
