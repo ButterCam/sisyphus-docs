@@ -45,10 +45,14 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/ButterCam/sisyphus-docs/edit/main/',
+              'https://github.com/ButterCam/sisyphus-docs/edit/main/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+        },
+        googleAnalytics: {
+          trackingID: 'G-GTV5XD2T1R',
+          anonymizeIP: false,
         },
       }),
     ],
