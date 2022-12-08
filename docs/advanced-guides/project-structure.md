@@ -105,6 +105,5 @@ The **Config Artifact** **should not** contain any Java or Kotlin code, it shoul
 such as `mysql.yml`.
 
 Sisyphus provides
-the [sisyphus-configuration-artifact](https://github.com/ButterCam/sisyphus/tree/master/middleware/sisyphus-configuration-
-artifact) component to download a specified Config Artifact and add it to the ClassPath when the application is
+the [sisyphus-configuration-artifact](https://github.com/ButterCam/sisyphus/tree/master/middleware/sisyphus-configuration-artifact) component to download a specified Config Artifact and add it to the ClassPath when the application is
 launched. This is a lightweight solution for replacing various configuration centers.
